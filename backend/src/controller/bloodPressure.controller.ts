@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as model from '../model/bloodPressure.model.js';
-import type { bloodPressureRow } from '../types/bloodPressureRow.types.js';
+import type { bloodPressureInput, bloodPressureRow } from '../types/bloodPressureRow.types.js';
 import { AppError } from '../types/error.types.js';
 import { sendSuccess } from '../utils/successResponse.utils.js';
 
@@ -15,7 +15,7 @@ export const getAllBloodPressure = async (req: Request, res: Response, next: Nex
 
 export const createBloodPressure = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try{
-        const bloodPressureInput: bloodPressureRow = req.body;
+        const bloodPressureInput: bloodPressureInput = req.body;
         const result = await model.createBloodPressure(bloodPressureInput);
         sendSuccess(res, 'Insert Success', `insertID: ${result}`);
     }catch(error){
@@ -26,7 +26,7 @@ export const createBloodPressure = async (req: Request, res: Response, next: Nex
 export const updateBloodPressure = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try{
         const id: number = Number(req.params.id);
-        const bloodPressureInput: bloodPressureRow = req.body;
+        const bloodPressureInput: bloodPressureInput = req.body;
         const affectedRows = await model.updateBloodPressure(bloodPressureInput, id);
         if(affectedRows === 0){
             throw new AppError(`ไม่พบ ID: ${id} ที่ฐานข้อมูล`, 404);

@@ -1,6 +1,6 @@
 import type { ResultSetHeader } from 'mysql2';
 import db from '../config/db.js';
-import type { bloodPressureRow } from '../types/bloodPressureRow.types.js';
+import type { bloodPressureRow, bloodPressureInput } from '../types/bloodPressureRow.types.js';
 
 export const getAllBloodPressure = async (): Promise<bloodPressureRow[]> => {
     try{
@@ -12,7 +12,7 @@ export const getAllBloodPressure = async (): Promise<bloodPressureRow[]> => {
     }
 }
 
-export const createBloodPressure = async (data: bloodPressureRow): Promise<number> => {
+export const createBloodPressure = async (data: bloodPressureInput): Promise<number> => {
     try{
         const { systolic, diastolic, pulse, note, measured_at } = data;
         const [result] = await db.execute<ResultSetHeader>(
@@ -26,7 +26,7 @@ export const createBloodPressure = async (data: bloodPressureRow): Promise<numbe
     }
 }
 
-export const updateBloodPressure = async (data: bloodPressureRow, id: number): Promise<number> => {
+export const updateBloodPressure = async (data: bloodPressureInput, id: number): Promise<number> => {
     try{
         const { systolic, diastolic, pulse, note, measured_at } = data;
         const [result] = await db.execute<ResultSetHeader>(
