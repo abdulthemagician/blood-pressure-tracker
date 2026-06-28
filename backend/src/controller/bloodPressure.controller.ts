@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as model from '../model/bloodPressure.model.js';
-import type { bloodPressureInput, bloodPressureRow } from '../types/bloodPressureRow.types.js';
+import type { bloodPressureInput } from '../../../shared/bloodPressureRow.types.js';
 import { AppError } from '../types/error.types.js';
 import { sendSuccess } from '../utils/successResponse.utils.js';
 

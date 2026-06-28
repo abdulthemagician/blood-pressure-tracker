@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/bloodpressure', routes);
+app.use('/api/bloodpressure', routes);
 
 app.use(globalErrorHandler);
 

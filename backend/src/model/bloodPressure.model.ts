@@ -1,11 +1,11 @@
-import type { ResultSetHeader } from 'mysql2';
+import type { ResultSetHeader, RowDataPacket } from 'mysql2';
 import db from '../config/db.js';
-import type { bloodPressureRow, bloodPressureInput } from '../types/bloodPressureRow.types.js';
+import type { bloodPressureRow, bloodPressureInput } from '../../../shared/bloodPressureRow.types.js';
 
 export const getAllBloodPressure = async (): Promise<bloodPressureRow[]> => {
     try{
-        const [rows] = await db.query<bloodPressureRow[]>('SELECT id, systolic, diastolic, pulse, measured_at, note FROM blood_pressure;');
-        return rows;
+        const [rows] = await db.query<RowDataPacket[]>('SELECT id, systolic, diastolic, pulse, measured_at, note FROM blood_pressure;');
+        return rows as bloodPressureRow[];
     }catch(error){
         console.log('Database Query Error at getAllBloodPressure:', error);
         throw error;
@@ -45,7 +45,7 @@ export const updateBloodPressure = async (data: bloodPressureInput, id: number):
 
 export const deleteBloodPressure = async (id: number): Promise<bloodPressureRow | null> => {
     try{
-        const [rows] = await db.query<bloodPressureRow[]>('SELECT id, systolic, diastolic, pulse, measured_at, note FROM blood_pressure WHERE id = ?', [id]);
+        const [rows] = await db.query<RowDataPacket[]>('SELECT id, systolic, diastolic, pulse, measured_at, note FROM blood_pressure WHERE id = ?', [id]);
         if(rows.length === 0) return null;
         const result = rows[0] as bloodPressureRow;
         await db.execute<ResultSetHeader>(
