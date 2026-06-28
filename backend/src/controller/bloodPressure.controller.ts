@@ -2,12 +2,12 @@ import type { Request, Response, NextFunction } from 'express';
 import * as model from '../model/bloodPressure.model.js';
 import type { bloodPressureInput } from '../../../shared/bloodPressureRow.types.js';
 import { AppError } from '../types/error.types.js';
-import { sendSuccess } from '../utils/successResponse.utils.js';
+import { sendSuccessWithData, dataResponse } from '../utils/successResponse.utils.js';
 
 export const getAllBloodPressure = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const result = await model.getAllBloodPressure();
-        sendSuccess(res, 'GET All Success', result);
+        dataResponse(res, result);
     } catch (error) {
         next(error);
     }
@@ -17,7 +17,7 @@ export const createBloodPressure = async (req: Request, res: Response, next: Nex
     try{
         const bloodPressureInput: bloodPressureInput = req.body;
         const result = await model.createBloodPressure(bloodPressureInput);
-        sendSuccess(res, 'Insert Success', `insertID: ${result}`);
+        dataResponse(res, bloodPressureInput);
     }catch(error){
         next(error);
     }
@@ -31,7 +31,7 @@ export const updateBloodPressure = async (req: Request, res: Response, next: Nex
         if(affectedRows === 0){
             throw new AppError(`ไม่พบ ID: ${id} ที่ฐานข้อมูล`, 404);
         }
-        sendSuccess(res, 'Update Sucess', bloodPressureInput);
+        dataResponse(res, bloodPressureInput);
     }catch(error){
         next(error);
     }
@@ -44,7 +44,7 @@ export const deleteBloodPressure = async (req: Request, res: Response, next: Nex
         if(result === null){
             throw new AppError(`ไม่พบ ID: ${id} ที่ฐานข้อมูล`, 404);
         }
-        sendSuccess(res, 'Delete Success', result);
+        dataResponse(res, result);
     }catch(error){
         next(error);
     }
