@@ -7,7 +7,6 @@ import { globalErrorHandler } from './src/middleware/errorHandler.middleware.js'
 const app = express();
 
 
-app.use(cors());
 app.use(bodyParser.json());
 app.use('/api/bloodpressure', routes);
 
